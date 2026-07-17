@@ -1,0 +1,27 @@
+name: Build and Test Go Code
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Go
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y go
+      - name: Build
+        run: |
+          go build -o main
+      - name: Test
+        run: |
+          go test -v
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: main
+      - name: Display build result
+        run: echo 'Build successful!'
